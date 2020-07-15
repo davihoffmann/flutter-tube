@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertube/blocs/video_bloc.dart';
 import 'package:fluttertube/delegates/data_search.dart';
+import 'package:fluttertube/widgets/video_tile.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class Home extends StatelessWidget {
           height: 25,
           child: Image.asset("images/yt_logo_rgb_dark.png"),
         ),
-        elevation: 1,
+        elevation: 0,
         backgroundColor: Colors.black87,
         actions: <Widget>[
           Align(
@@ -32,14 +33,15 @@ class Home extends StatelessWidget {
           )
         ],
       ),
+      backgroundColor: Colors.black87,
       body: StreamBuilder(
         stream: BlocProvider.getBloc<VideoBloc>().outVideos,
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             return ListView.builder(
               itemBuilder: (context, index) {
-
-              }
+                return VideoTile(snapshot.data[index]);
+              },
             );
           } else {
             return Container();
