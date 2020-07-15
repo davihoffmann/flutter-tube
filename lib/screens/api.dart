@@ -1,35 +1,32 @@
 import 'dart:convert';
 
 import 'package:fluttertube/model/video.dart';
+import 'package:fluttertube/screens/api_key.dart';
 import 'package:http/http.dart' as http;
-
-const API_KEY = "AIzaSyDYY9fq-D2Pbkbp8DxBr5R2XWzbJ9xSDzw";
-
 
 class Api {
 
   search(String search) async {
     http.Response response = await http.get(
-      "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$search&type=video&key=$API_KEY&maxResults=10"
-    );
+        "https://www.googleapis.com/youtube/v3/search?part=snippet&q=$search&type=video&chart=mostPopular&key=$API_KEY&maxResults=10");
 
-    decode(response);
+    return decode(response);
   }
 
   List<Video> decode(http.Response response) {
-    if(response.statusCode == 200) {
+    print(response.statusCode);
+    if (response.statusCode == 200) {
       var decoded = json.decode(response.body);
 
-      List<Video> videos = decoded["items"].map<Video>(
-        (video) => Video.fromJson(video)
-      ).toList();
+      List<Video> videos = decoded["items"]
+          .map<Video>((video) => Video.fromJson(video))
+          .toList();
 
       return videos;
     } else {
       throw Exception("Failed to load videos");
     }
   }
-
 }
 
 /**
