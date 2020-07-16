@@ -16,6 +16,24 @@ class Video {
     );
   }
 
+  factory Video.fromJsonPreferences(Map<String, dynamic> json) {
+    return Video(
+      id: json["id"].toString(),
+      title: json["title"],
+      thumb: json["thumb"],
+      channel: json["channel"]
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "thumb": thumb,
+      "channel": channel
+    };
+  }
+
   @override
   String toString() {
     return "Video($id, $title, $thumb, $channel);";
